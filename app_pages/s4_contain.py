@@ -2,6 +2,8 @@
 # Co-authored with CoCo
 import streamlit as st
 
+import story
+
 import sample_data as D
 from snippets import PAGES
 from ui import (capability, checkpoints, expectations_table, explanations, footer, header, prompt, result_label,
@@ -9,6 +11,7 @@ from ui import (capability, checkpoints, expectations_table, explanations, foote
 
 P = "session_04"
 header(P)
+story.chapter(4)
 capability("A **circuit breaker** task that freezes REPORTING Dynamic Tables while any Bronze expectation is "
            "violated and resumes them when clean, plus per-check data quality notifications.",
            "Session 4 (6 min)", "`ALTER DYNAMIC TABLE ... SUSPEND` and `SYSTEM$SET_RETURN_VALUE` run in a task")
@@ -24,7 +27,7 @@ if state == "Fault present":
     run = D.S4_CB_OPEN[0]
     st.error(f"**{run['RETURN_VALUE']}**", icon=":material/block:")
     table(D.S4_CB_OPEN)
-    st.markdown("REPORTING Dynamic Tables frozen at their last good state:")
+    st.markdown("REPORTING Dynamic Tables paused - no further refreshes:")
     table(D.S4_DTS_OPEN)
 else:
     closed = [r for r in D.S4_CB_CLOSED if r["RETURN_VALUE"]]
@@ -47,6 +50,7 @@ with c2:
     expectations_table(D.S4_AFTER_FIX_EVAL)
 
 checkpoints(P)
+story.turn(4)
 built = PAGES[P].get("built", [])
 if built:
     st.markdown("##### :material/check_circle: What you built")

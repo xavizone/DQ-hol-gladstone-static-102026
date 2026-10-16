@@ -485,6 +485,24 @@ PAGES = {
 ],
     'refs': {'Quickstarts': [L.QS_DQ, L.QS_COCO_DESKTOP, L.QS_COCO_CLI], 'Docs': [L.DQ_INTRO, L.DT_OVERVIEW, L.SV_OVERVIEW, L.AGENTS, L.COCO]},
   },
+  'install_coco': {
+    'prompts': [],
+    'fallbacks': [],
+    'snowsight': [],
+    'checkpoints': [],
+    'explanations': [],
+    'examples': [
+  {
+    "title": "Rolling CoCo out to the data team",
+    "body": "The same checklist - access role, account identifier, SSO connection, a test prompt - works for every Gladstone engineer, not just the lab."
+  },
+  {
+    "title": "IT-managed laptops",
+    "body": "The Windows System installer and CoCo Desktop managed settings let IT deploy and configure CoCo centrally."
+  }
+],
+    'refs': {'Downloads': [L.COCO_DOWNLOADS, L.SNOW_CLI_RELEASES], 'Quickstarts': [L.QS_COCO_DESKTOP, L.QS_COCO_CLI], 'Docs': [L.COCO_DESKTOP, L.COCO_DESKTOP_SETUP, L.COCO_DESKTOP_FAQ, L.COCO_CLI, L.COCO_CLI_REF, L.SNOW_CLI_INSTALL, L.CROSS_REGION, L.ACCOUNT_ID]},
+  },
   'reference_coco': {
     'prompts': [],
     'fallbacks': [],
@@ -889,7 +907,7 @@ PAGES = {
   "building": "A circuit breaker task and a notification on the critical check"
 },
     'what': "Stop bad Bronze data reaching Nova: a task that freezes the REPORTING Dynamic Tables while any Bronze expectation fails, and resumes them when it's clean. Then decide which checks should email you.",
-    'why': "Detection alone still lets Nova serve a wrong number. Freezing REPORTING keeps Nova on the last good state - stale beats wrong. Notifications on only the critical checks avoid alert fatigue across hundreds of operators.",
+    'why': "Detection alone still lets Nova serve a wrong number. Pausing REPORTING stops further bad batches reaching Nova - stale beats wrong. (With 5-minute checks and 1-minute REPORTING, the first bad batch can already be in; checks triggered on change close that gap.) Notifications on only the critical checks avoid alert fatigue across hundreds of operators.",
     'fallback_after': [
   "Prompt 4.2"
 ],
@@ -902,7 +920,7 @@ PAGES = {
   {
     "name": "Dynamic Table suspend / resume",
     "icon": "pause_circle",
-    "description": "Freeze REPORTING at its last good state"
+    "description": "Pause REPORTING while Bronze is failing"
   },
   {
     "name": "DQ notifications",

@@ -5,6 +5,8 @@ import json
 import pandas as pd
 import streamlit as st
 
+import story
+
 import sample_data as D
 from ui import (capability, checkpoints, explanations, footer, header, prompt, result_label, snowsight, sql_steps,
                 tech, what_why)
@@ -12,6 +14,7 @@ from ui import (capability, checkpoints, explanations, footer, header, prompt, r
 P = "session_05"
 LAB_OPS = {"CUST_NIELS", "CUST_AMY", "CUST_RAJ", "CUST_SARA", "CUST_TOM", "CUST_LENA"}
 header(P)
+story.chapter(5)
 capability("One view of data quality across every operator database, from the account-wide expectation status view - "
            "the pattern for watching hundreds of `CUST_*` databases at once.",
            "Session 5 (4 min)", "Snowsight » Governance & security » Data quality shows your checks")
@@ -47,6 +50,8 @@ st.divider()
 prompt(P, 1)
 
 checkpoints(P)
+story.turn(5)
+story.epilogue()
 explanations(P)
 tech(P)
 sql_steps(P)

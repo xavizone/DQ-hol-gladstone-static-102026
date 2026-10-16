@@ -2143,7 +2143,7 @@ S4_CB_OPEN = [
   "NAME": "TSK_DQ_CIRCUIT_BREAKER",
   "STATE": "SUCCEEDED",
   "SCHEDULED_TIME": "2026-10-16 06:54:18",
-  "RETURN_VALUE": "OPEN: 1 failing Bronze check(s) - REPORTING frozen at last good state"
+  "RETURN_VALUE": "OPEN: 1 failing Bronze check(s) - REPORTING refresh paused"
  }
 ]
 

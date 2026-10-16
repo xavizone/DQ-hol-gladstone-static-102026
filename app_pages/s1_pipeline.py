@@ -2,12 +2,15 @@
 # Co-authored with CoCo
 import streamlit as st
 
+import story
+
 import sample_data as D
 from ui import (capability, checkpoints, explanations, footer, header, prompt, result_label, snowsight,
                 sql_steps, table, tech, what_why)
 
 P = "session_01"
 header(P)
+story.chapter(1)
 capability("Map one operator's Nova pipeline end to end - Bronze tables, the merge task, REPORTING Dynamic Tables "
            "and the semantic view - from live metadata, by asking CoCo.",
            "Session 1 (4 min)", "`SHOW DYNAMIC TABLES` and `DESCRIBE SEMANTIC VIEW` in your operator schema")
@@ -56,6 +59,7 @@ with c2:
     table(D.S1_UTIL)
 
 checkpoints(P)
+story.turn(1)
 explanations(P)
 tech(P)
 sql_steps(P)

@@ -4,6 +4,8 @@ import json
 
 import streamlit as st
 
+import story
+
 import sample_data as D
 from snippets import PAGES
 from ui import (capability, checkpoints, expectations_table, explanations, footer, header, prompt, result_label,
@@ -11,6 +13,7 @@ from ui import (capability, checkpoints, expectations_table, explanations, foote
 
 P = "session_02"
 header(P)
+story.chapter(2)
 capability("Data metric functions (system and custom) on a schedule, with **expectations** - the invariants that "
            "must always hold - and anomaly detection as the long-term safety net. Serverless, inside Snowflake.",
            "Session 2 (7 min)", "`SHOW DATA METRIC FUNCTIONS IN SCHEMA SNOWFLAKE.CORE` lists NEGATIVE_COUNT and REFERENTIAL_INTEGRITY_COUNT")
@@ -42,6 +45,7 @@ st.caption("`SYSTEM$EVALUATE_DATA_QUALITY_EXPECTATIONS` runs the checks now inst
            "The seventh expectation, `reporting_within_5min` on `REPORTING__DAILY_REVENUE`, compares two tables and runs on its schedule.")
 
 checkpoints(P)
+story.turn(2)
 concepts = PAGES[P].get("concepts", [])
 if concepts:
     st.markdown("##### :material/lightbulb: Key concepts")

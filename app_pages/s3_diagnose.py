@@ -2,12 +2,15 @@
 # Co-authored with CoCo
 import streamlit as st
 
+import story
+
 import sample_data as D
 from ui import (capability, checkpoints, expectations_table, explanations, footer, header, prompt, result_label,
                 snowsight, sql_steps, table, tech, what_why)
 
 P = "session_03"
 header(P)
+story.chapter(3)
 capability("Root-cause a wrong Nova answer: which expectation failed, which rows, which merge batch, and whether "
            "the pipeline itself stopped - using `SYSTEM$DATA_METRIC_SCAN`, task history and Dynamic Table refresh history.",
            "Session 3 (9 min)", "`SNOWFLAKE.LOCAL.DATA_QUALITY_MONITORING_EXPECTATION_STATUS` returns rows for your schema")
@@ -31,6 +34,8 @@ def faults_view():
            "SARA": "Orphan check-ins", "TOM": "Tenant leak", "LENA": "Status drift"}
     op = st.segmented_control("Look at operator", list(OPS), default="NIELS",
                               format_func=lambda o: f"{o} - {OPS[o]}", key="op_pick") or "NIELS"
+    fault = next((r["FAULT_CODE"] for r in D.F_ANSWER_KEY if r["SHORT_NAME"] == op), None)
+    story.ticket("s3", fault_code=fault, operator=f"CUST_{op}")
     st.markdown(f"#### `CUST_{op}`: what CoCo finds")
     evals = getattr(D, f"E_{op}_MEMBERS__MEMBER") + getattr(D, f"E_{op}_SYSTEM__PAYMENT") + getattr(D, f"E_{op}_SYSTEM__ATTENDANCE")
     bad = [r for r in evals if r["EXPECTATION_VIOLATED"]]
@@ -95,6 +100,7 @@ st.markdown("**Dynamic Table refresh history** - refreshes keep succeeding, so t
 table(D.S3_DT_HISTORY, cols=["NAME", "STATE", "REFRESH_ACTION", "REFRESH_TRIGGER", "DATA_TIMESTAMP"])
 
 checkpoints(P)
+story.turn(3)
 explanations(P)
 tech(P)
 sql_steps(P)
