@@ -29,5 +29,5 @@ python tools/test_app.py
 
 ## Deploy to Streamlit Community Cloud
 
-Create an app at share.streamlit.io: repository `xavizone/coco-hol-gladstone-static-102026`, branch `main`,
+Create an app at share.streamlit.io: repository `xavizone/DQ-hol-gladstone-static-102026`, branch `main`,
 main file `streamlit_app.py`. No secrets are needed.
