@@ -29,16 +29,15 @@ with before:
     st.markdown("""
 | When | Who | Do |
 |---|---|---|
-| T-5 working days | Facilitator | Send the questionnaire's six **T-5** items and the roster template. Send attendees the prep sheet. |
-| T-5 | Admin | Check every roster user exists: `SHOW USERS LIKE '<user>';` |
-| T-3 | Admin | Run the setup scripts, including spares. Send back the pre-flight output and `V_ROSTER`. |
+| T-5 working days | Facilitator | Send the questionnaire's six **T-5** items. Send attendees the prep sheet. |
+| T-5 | Admin | Check every attendee's user exists: `SHOW USERS LIKE '<user>';` |
+| T-3 | Admin | In the live guide's **Lab setup → Setup** tab, type each attendee's Snowflake user and the admin email, generate the script and Run All. Send back `V_ROSTER`. |
 | T-1 | Attendees | Log in, open CoCo, run the test prompt. |
 | T-1 | Facilitator | `V_ROSTER`: everyone `ASSIGNED`, recent login, at least 2 `SPARE - free`. |
 """)
-    c1, c2, c3 = st.columns(3)
-    for col, (f, label, mime) in zip([c1, c2, c3], [("ADMIN_PREFLIGHT_QUESTIONNAIRE.md", "Admin questionnaire", "text/markdown"),
-                                                    ("ATTENDEE_ROSTER.csv", "Roster template (CSV)", "text/csv"),
-                                                    ("ATTENDEE_PREP.md", "Attendee prep sheet", "text/markdown")]):
+    c1, c2 = st.columns(2)
+    for col, (f, label, mime) in zip([c1, c2], [("ADMIN_PREFLIGHT_QUESTIONNAIRE.md", "Admin questionnaire", "text/markdown"),
+                                                ("ATTENDEE_PREP.md", "Attendee prep sheet", "text/markdown")]):
         col.download_button(label, data=(ROOT / f).read_text(), file_name=f, mime=mime, icon=":material/download:", key=f"dl_{f}")
     with st.container(border=True):
         st.markdown((ROOT / "ADMIN_PREFLIGHT_QUESTIONNAIRE.md").read_text().split("\n", 1)[-1])
@@ -49,21 +48,26 @@ with setup:
 |---|---|
 | **ACCOUNTADMIN** for setup and teardown | Creates roles, warehouse, monitor, integration; alters users |
 | **Enterprise Edition or higher** | Data metric functions, classification, masking and row access |
-| Attendee Snowflake **users** exist, with CoCo access | `SETUP_ALL` grants roles (and optionally sets defaults) |
+| Attendee Snowflake **users** exist, with CoCo access | `SETUP_ALL` grants each user their operator role. Defaults change only if the admin ticks *Set each attendee's default role* |
 | A **verified email** | Email integration for DQ and budget notifications |
 | A warehouse other than `DQ_LAB_WH` | Used by teardown before dropping the lab warehouse |
 """)
-    st.markdown("#### Run order")
-    sql_file("00_admin_setup.sql", "1. `00_admin_setup.sql` - account objects, roles, lab database (edit LAB_ADMIN_EMAIL first)")
+    st.markdown("""#### One generated script
+In the live guide, **Lab setup → Setup** builds a single script from the three files below plus an attendee step.
+The admin types each attendee's **exact Snowflake user name** into a table (operator name optional, default
+`OPERATOR01`, `OPERATOR02`, ...), enters a verified admin email and the number of spares, then runs it in one
+worksheet as ACCOUNTADMIN (~2 min + ~20 s per attendee). By default **nobody's default role or warehouse is
+changed** - attendees run `USE ROLE DQ_LAB_<NAME>` themselves at the start of every session.""")
+    sql_file("00_admin_setup.sql", "1. `00_admin_setup.sql` - account objects, roles, lab database")
     sql_file("01_build_template.sql", "2. `01_build_template.sql` - synthetic gold-copy operator + central DMFs")
     sql_file("02_lab_procs.sql", "3. `02_lab_procs.sql` - setup, spare, fault, reset procedures and views")
-    st.markdown("**4. One operator per attendee, plus spares**")
+    st.markdown("**4. The attendee step the guide appends** (example for two attendees)")
     st.code("""USE ROLE ACCOUNTADMIN;
 USE WAREHOUSE DQ_LAB_WH;
-CALL GLADSTONE_DQ_LAB.ADMIN.SETUP_ALL(PARSE_JSON('[
-  {"user": "NJOHANSEN", "name": "NIELS"},
-  {"user": "ASMITH",    "name": "AMY", "set_defaults": false}
-]'));
+CALL GLADSTONE_DQ_LAB.ADMIN.SETUP_ALL(PARSE_JSON($$[
+  {"user": "NJOHANSEN", "name": "NIELS", "set_defaults": false},
+  {"user": "ASMITH",    "name": "AMY",   "set_defaults": false}
+]$$));
 CALL GLADSTONE_DQ_LAB.ADMIN.SETUP_SPARES(3);
 SELECT * FROM GLADSTONE_DQ_LAB.ADMIN.V_ROSTER;""", language="sql")
     st.markdown("**Demo results: `V_ROSTER` after setup**")

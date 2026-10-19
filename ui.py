@@ -43,6 +43,11 @@ def header(page: str):
         c1, c2 = st.columns(2)
         c1.markdown(f":material/schedule: **{h['duration']}**")
         c2.markdown(f":material/construction: **Building**: {h['building']}")
+        # The lab never changes users' DEFAULT_ROLE, so live attendees switch role on every session page
+        st.warning("**In the live lab:** before pasting any prompt, CoCo (or your worksheet) must be on role "
+                   "`DQ_LAB_<NAME>` and warehouse `DQ_LAB_WH` - a new CoCo session, reconnect or worksheet starts "
+                   "in your usual role. `USE ROLE DQ_LAB_<NAME>; USE SECONDARY ROLES NONE; USE WAREHOUSE DQ_LAB_WH;`",
+                   icon=":material/badge:")
 
 
 def table(rows, caption: str | None = None, cols: list[str] | None = None):

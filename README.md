@@ -16,7 +16,7 @@ Use it as a backup if the live environment is unavailable, as a pre-read, or as 
 | `snippets.py` | CoCo prompts, Snowsight routes, SQL and use cases copied from the interactive guide (generated) |
 | `ui.py`, `components.py` | Page building blocks |
 | `sql/` | The same admin, answer-key, bonus and teardown scripts as the interactive lab |
-| `ADMIN_PREFLIGHT_QUESTIONNAIRE.md`, `ATTENDEE_ROSTER.csv`, `ATTENDEE_PREP.md` | Hand-outs |
+| `ADMIN_PREFLIGHT_QUESTIONNAIRE.md`, `ATTENDEE_PREP.md` | Hand-outs |
 | `tools/test_app.py` | Headless render test of every page |
 
 ## Run locally

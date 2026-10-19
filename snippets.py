@@ -756,7 +756,7 @@ PAGES = {
   {
     "id": "Prompt 3.2",
     "title": "Check the semantic layer",
-    "text": "Compare the two definitions of active members in GLADSTONE_DQ_LAB.CUST_NIELS.SV_OPERATOR_KPIS: the active_members metric (source status) and the verified query vq_active_members (paid in the last 35 days). How big is the gap now, in members and percent? On clean data it was about 6%. If it has moved, which Bronze change explains it?"
+    "text": "Compare the two definitions of active members in GLADSTONE_DQ_LAB.CUST_NIELS.SV_OPERATOR_KPIS: the active_members metric (source status) and the verified query vq_active_members (paid in the last 35 days). How big is the gap now, in members and percent? On clean data it was about 5% (78 members). If it has moved, which Bronze change explains it?"
   }
 ],
     'fallbacks': [
